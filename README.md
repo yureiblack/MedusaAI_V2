@@ -38,17 +38,19 @@ This is a **full-stack AI application** consisting of:
 ---
 
 ## System Architecture  
+```text
 React PWA (Frontend)
-↓
+        ↓
 FastAPI Backend
-↓
+        ↓
 LangGraph Agent Workflow
-↓
+        ↓
 Search → Filter → Summarize → Validate → Report
-↓
+        ↓
 Follow-up Questions + Topic Expansion
-↓
+        ↓
 PDF / Markdown Export
+```
 
 ---
 
