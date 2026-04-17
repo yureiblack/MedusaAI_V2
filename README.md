@@ -116,36 +116,31 @@ http://localhost:3000
 Example: Impact of Artificial Intelligence in Healthcare
 
 ### Step 3: Generate Results
-The system will:
+- The system will:
 
-Perform web search
+    - Perform web search
 
-Summarize multiple sources
+    - Summarize multiple sources
 
-Generate structured report
+    - Generate structured report
 
 ### Step 4: Output Includes
-Research Report
-Title
+- Research Report
+    - Title
+    - Abstract
+    - Key Findings
+    - Sources
+    - Conclusion
 
-Abstract
+- Follow-up Questions
+    - Suggested next research directions
 
-Key Findings
-
-Sources
-
-Conclusion
-
-Follow-up Questions
-Suggested next research directions
-
-Expanded Topics
-Related subtopics for deeper exploration
+- Expanded Topics
+    - Related subtopics for deeper exploration
 
 ### Step 5: Export Options
-Export as PDF
-
-Export as Markdown
+- Export as PDF
+- Export as Markdown
 
 ---
 
@@ -174,52 +169,34 @@ milestone_2/
 ## Features Implemented
 
 ### Core Functionalities
-Accept open-ended research queries
-
-Perform real-time web search
-
-Aggregate multi-source information
-
-Maintain state across workflow
-
-Generate structured research reports
+- Accept open-ended research queries
+- Perform real-time web search
+- Aggregate multi-source information
+- Maintain state across workflow
+- Generate structured research reports
 
 ### Agentic Capabilities
-Multi-step LangGraph workflow
-
-Query planning
-
-Validation and error handling
-
-Retrieval-augmented generation
+- Multi-step LangGraph workflow
+- Query planning
+- Validation and error handling
+- Retrieval-augmented generation
 
 ### Extensions
-Follow-up question generation
-
-Topic expansion
-
-PDF export
-
-Markdown export
+- Follow-up question generation
+- Topic expansion
+- PDF export
+- Markdown export
 
 ### Error Handling
-The system handles:
-
-Missing or insufficient search results
-
-API or model failures
-
-Noisy or duplicate sources
-
-Displays user-friendly error messages
+- The system handles:
+    - Missing or insufficient search results
+    - API or model failures
+    - Noisy or duplicate sources
+    - Displays user-friendly error messages
 
 ### Future Improvements
-Session-based memory
-
-Chat-style UI
-
-Better source ranking
-
-Agent retry loops (self-correcting AI)
-
-Deployment (Render + Vercel)
+- Session-based memory
+- Chat-style UI
+- Better source ranking
+- Agent retry loops (self-correcting AI)
+- Deployment (Render + Vercel)
