@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph
+from langgraph.graph import StateGraph, END
 from state import AgentState
 
 from nodes.planner import planner_node
@@ -24,5 +24,7 @@ builder.add_edge("search", "filter")
 builder.add_edge("filter", "summarize")
 builder.add_edge("summarize", "validate")
 builder.add_edge("validate", "report")
+
+builder.add_edge("report", END)
 
 graph = builder.compile()
