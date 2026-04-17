@@ -151,24 +151,23 @@ Export as Markdown
 
 ## Project Structure
 
+```text
 milestone_2/
-│
 ├── backend/
-│   ├── nodes/        # Agent nodes (planner, search, summarizer, etc.)
-│   ├── llm/          # LLM engine
-│   ├── utils/        # Helpers (optional)
-│   ├── exports/      # PDF/Markdown export
-│   ├── state.py      # Shared state
-│   ├── graph.py      # LangGraph workflow
-│   ├── main.py       # FastAPI server
+│   ├── nodes/
+│   ├── llm/
+│   ├── utils/
+│   ├── exports/
+│   ├── state.py
+│   ├── graph.py
+│   ├── main.py
 │   └── requirements.txt
-│
 ├── frontend/
 │   ├── src/
 │   ├── public/
 │   └── package.json
-│
 └── README.md
+```
 
 ---
 
