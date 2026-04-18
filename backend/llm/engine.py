@@ -1,7 +1,7 @@
 from transformers import pipeline
 
 generator = pipeline(
-    "text2text-generation",
+    "text-generation",
     model="google/flan-t5-small",
     max_length=256
 )
