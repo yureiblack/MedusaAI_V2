@@ -8,7 +8,9 @@ load_dotenv()
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
 
-if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
-    raise ValueError("Missing Supabase environment variables in backend/.env")
-
-supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+# Create client only if variables exist, or handle gracefully in nodes
+supabase = None
+if SUPABASE_URL and SUPABASE_SERVICE_KEY:
+    supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+else:
+    print("---WARNING: Missing Supabase environment variables---")

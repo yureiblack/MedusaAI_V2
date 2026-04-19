@@ -1,0 +1,11 @@
+fastapi==0.110.0
+uvicorn==0.29.0
+langgraph==0.0.40
+fpdf==1.7.2
+tavily-python==0.3.3
+python-dotenv==1.0.1
+groq==0.4.2
+supabase==2.3.7
+python-jose[cryptography]==3.3.0
+beautifulsoup4==4.12.3
+requests==2.31.0
