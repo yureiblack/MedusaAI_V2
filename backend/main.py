@@ -1,11 +1,24 @@
-from fastapi import FastAPI, Header, Depends
+from fastapi import FastAPI, Header, Depends, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+import traceback
 from graph import graph
 from exports.exporter import export_pdf, export_markdown
 from auth import get_current_user
 from supabase_client import supabase
 
 app = FastAPI()
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": str(exc),
+            "traceback": traceback.format_exc(),
+            "detail": "Global error handler caught an unhandled exception"
+        }
+    )
 
 app.add_middleware(
     CORSMiddleware,
