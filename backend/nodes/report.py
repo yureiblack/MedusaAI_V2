@@ -8,13 +8,21 @@ def report_node(state):
     # Detect if the user wants a simple summary or is asking a simple factual question
     query_text = query.strip()
     summary_keywords = ["summary", "brief", "short", "paragraph", "bullet", "list", "overview", "words"]
-    factual_starters = ["who", "what", "where", "when", "how many", "is there"]
+    report_keywords = ["research", "analyze", "detailed", "report", "comprehensive", "deep dive"]
+    factual_starters = ["who is", "what is", "where is", "when did", "how many"]
     
-    is_summary_request = (
-        any(word in query_text for word in summary_keywords) or 
-        any(query_text.startswith(starter) for starter in factual_starters) or
-        len(query_text.split()) < 8  # Very short queries are usually factual
-    )
+    # Logic: 
+    # 1. If they explicitly ask for a report/detailed analysis -> Full Report
+    # 2. If they explicitly ask for a summary/brief -> Summary
+    # 3. If it starts with a factual "Who/What/When" AND is short -> Summary
+    # 4. Otherwise (How/Why or general topics) -> Full Report
+    
+    force_report = any(word in query_text for word in report_keywords)
+    force_summary = any(word in query_text for word in summary_keywords)
+    
+    is_factual_lookup = any(query_text.startswith(starter) for starter in factual_starters) and len(query_text.split()) < 6
+    
+    is_summary_request = (force_summary or (is_factual_lookup and not force_report))
 
     if is_summary_request:
         # Simplified prompt for clean summaries
