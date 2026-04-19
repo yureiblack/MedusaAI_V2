@@ -1,237 +1,141 @@
-# Intelligent Agentic AI Research Assistant
+# MedusaAI: Intelligent Agentic AI Research Assistant
+
+MedusaAI is a fully autonomous AI research assistant designed to go beyond traditional NLP systems. It leverages agentic workflows, real-time web search, and multi-step reasoning to generate comprehensive, structured research reports.
 
 ---
 
-## Project Title  
-**Intelligent Agentic AI Research Assistant (React PWA + LangGraph Backend)**
+## Overview
+
+MedusaAI demonstrates the evolution from traditional RAG (Retrieval-Augmented Generation) to **Agentic AI Systems**. It doesn't just retrieve information; it plans, filters, summarizes, validates, and refines research content autonomously.
+
+### Key Capabilities
+- **Agentic Workflows**: Multi-step reasoning powered by LangGraph.
+- **Real-time Research**: Live web searching and data aggregation.
+- **Structured Outputs**: Professional reports with abstract, findings, and sources.
+- **Topic Expansion**: Automatically suggests follow-up questions and related topics.
+- **Export Options**: Download research as PDF or Markdown.
 
 ---
 
-## Motive  
+##  System Architecture
 
-The objective of this project is to build a **fully autonomous AI research assistant** that goes beyond traditional NLP systems by incorporating:
-
-- Agentic workflows  
-- Real-time web search  
-- Multi-step reasoning  
-- Structured report generation  
-
-This project demonstrates the evolution from:
-> Traditional NLP Pipelines → Retrieval-Augmented Generation → Agentic AI Systems
-
----
-
-## Description  
-
-This is a **full-stack AI application** consisting of:
-
-### Frontend (React PWA)
-- Progressive Web App (installable)
-- User-friendly interface for research queries
-- Displays reports, sources, follow-ups, and topics
-
-### Backend (FastAPI + LangGraph)
-- Executes agentic workflow
-- Handles search, summarization, reasoning, and report generation
-- Provides API endpoints for frontend communication
-
----
-
-## System Architecture  
 ```text
-React PWA (Frontend)
-        ↓
-FastAPI Backend
-        ↓
-LangGraph Agent Workflow
-        ↓
-Search → Filter → Summarize → Validate → Report
-        ↓
-Follow-up Questions + Topic Expansion
-        ↓
-PDF / Markdown Export
+React (Vite) Frontend
+         │
+         ▼
+  FastAPI Backend ◄────► Supabase (Auth/Database)
+         │
+         ▼
+  LangGraph Agent Workflow
+  ┌─────────────────────────────────────────┐
+  │ Search → Filter → Summarize → Validate  │
+  └─────────────────────────────────────────┘
+         │
+         ▼
+  Final Report + Follow-ups + Topics
 ```
 
 ---
 
-## Installation Instructions  
+## Local Setup Instructions
 
-### 1. Clone Repository
+### 1. Prerequisites
+- **Node.js** (v18 or higher)
+- **Python** (3.11 or higher)
+- **Git**
+
+### 2. Clone the Repository
 ```bash
-git clone <your-repo-link>
-cd project
+git clone <repository-url>
+cd MedusaAI_V2
 ```
+
+### 3. Backend Configuration
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv venv
+   # On macOS/Linux:
+   source venv/bin/activate
+   # On Windows:
+   venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Set up environment variables:
+   - Copy `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Fill in your API keys (Supabase, Groq, Tavily) in the `.env` file.
+5. Start the backend server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+   The backend will be running at `http://127.0.0.1:8000`.
+
+### 4. Frontend Configuration
+1. Open a new terminal and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables:
+   - Copy `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Ensure `VITE_API_BASE_URL` points to your running backend (default: `http://127.0.0.1:8000`).
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   The frontend will be running at `http://localhost:5173` (or the port shown in your terminal).
 
 ---
 
-### 2. Backend Setup
+## 📁 Project Structure
 
-#### Install Python 3.11 (if not installed)
-Using Homebrew:
-```bash
-brew install python@3.11
-```
-
-```bash
-cd backend
-python3.11 -m venv venv
-```
-
-#### Activate Virtual Environment
-```bash
-source venv/bin/activate
-```
-
-#### Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-#### Run Backend Server
-```bash
-uvicorn main:app --reload
-```
-
-#### Backend runs at:
-```bash
-http://127.0.0.1:8000
-```
-
----
-
-### 3. Frontend Setup (React PWA)
-```bash
-cd frontend
-npm install
-npm start
-```
-
-#### Frontend runs at:
-```bash
-http://localhost:3000
+```text
+MedusaAI_V2/
+├── backend/            # FastAPI + LangGraph logic
+│   ├── llm/            # Model configurations
+│   ├── nodes/          # Individual agent nodes (search, summarizer, etc.)
+│   ├── main.py         # API entry point
+│   ├── graph.py        # Workflow definition
+│   └── .env            # Backend secrets
+├── frontend/           # React + Vite application
+│   ├── src/            # Components, Hooks, and Pages
+│   ├── public/         # Static assets
+│   └── .env            # Frontend configuration
+├── api/                # Vercel serverless functions (for deployment)
+└── database/           # Database schemas and scripts
 ```
 
 ---
 
 ## Usage Example
 
-### Step 1: Open Application
-Go to:
-```bash
-http://localhost:3000
-```
-
-### Step 2: Enter Query
-Example: Impact of Artificial Intelligence in Healthcare
-
-### Step 3: Generate Results
-- The system will:
-
-    - Perform web search
-
-    - Summarize multiple sources
-
-    - Generate structured report
-
-### Step 4: Output Includes
-- Research Report
-    - Title
-    - Abstract
-    - Key Findings
-    - Sources
-    - Conclusion
-
-- Follow-up Questions
-    - Suggested next research directions
-
-- Expanded Topics
-    - Related subtopics for deeper exploration
-
-### Step 5: Export Options
-- Export as PDF
-- Export as Markdown
+1. **Open the App**: Navigate to `http://localhost:5173`.
+2. **Research Query**: Enter a topic like *"The future of quantum computing in cryptography"*.
+3. **Execution**: Watch as the agents perform web searches, filter results, and compile a report.
+4. **Review**: Read the generated report, explore follow-up questions, and export the result as a PDF or Markdown file.
 
 ---
 
-## Project Structure
-
-```text
-MedusaAI_V2/
-│
-├── backend/
-│   ├── __pycache__/
-│   ├── exports/
-│   ├── llm/
-│   │
-│   ├── nodes/
-│   │   ├── __pycache__/
-│   │   ├── __init__.py
-│   │   ├── expand.py        # Query expansion logic
-│   │   ├── filter.py        # Filtering irrelevant/low-quality data
-│   │   ├── followup.py      # Follow-up query generation
-│   │   ├── planner.py       # Planning agent (task decomposition)
-│   │   ├── report.py        # Final report generation
-│   │   ├── retriever.py     # Data retrieval from sources
-│   │   ├── search.py        # Search query execution
-│   │   ├── summarizer.py    # Summarization logic
-│   │   └── validator.py     # Output validation
-│   │
-│   ├── venv/
-│   ├── .env
-│   ├── graph.py             # Agent workflow graph
-│   ├── main.py              # Entry point
-│   ├── requirements.txt
-│   └── state.py             # Shared state across agents
-│
-├── frontend/
-│   ├── .vite/
-│   ├── public/
-│   ├── src/
-│   ├── .gitignore
-│   ├── eslint.config.js
-│   ├── index.html
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── README.md
-│   └── vite.config.js
-│
-├── .gitignore
-└── README.md
-```
+## Tech Stack
+- **Frontend**: React, Vite, Axios, React Markdown.
+- **Backend**: FastAPI, Python 3.11, LangGraph, LangChain.
+- **Database/Auth**: Supabase.
+- **LLMs**: Groq (Llama 3).
+- **Search**: Tavily API.
 
 ---
-
-## Features Implemented
-
-### Core Functionalities
-- Accept open-ended research queries
-- Perform real-time web search
-- Aggregate multi-source information
-- Maintain state across workflow
-- Generate structured research reports
-
-### Agentic Capabilities
-- Multi-step LangGraph workflow
-- Query planning
-- Validation and error handling
-- Retrieval-augmented generation
-
-### Extensions
-- Follow-up question generation
-- Topic expansion
-- PDF export
-- Markdown export
-
-### Error Handling
-- The system handles:
-    - Missing or insufficient search results
-    - API or model failures
-    - Noisy or duplicate sources
-    - Displays user-friendly error messages
-
-### Future Improvements
-- Session-based memory
-- Chat-style UI
-- Better source ranking
-- Agent retry loops (self-correcting AI)
-- Deployment (Render + Vercel)
