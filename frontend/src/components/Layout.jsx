@@ -12,7 +12,8 @@ const Layout = ({
   onNewSession, 
   onSwitchSession,
   searchQuery,
-  onSearchChange
+  onSearchChange,
+  user
 }) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
 
@@ -28,6 +29,7 @@ const Layout = ({
         onNewSession={onNewSession}
         onSwitchSession={onSwitchSession}
         onLogout={onLogout}
+        user={user}
       />
       
       <main className={`main-content ${isExpanded ? 'expanded' : 'collapsed'}`}>
@@ -36,6 +38,7 @@ const Layout = ({
           activeTab={activeTab} 
           searchQuery={searchQuery}
           onSearchChange={onSearchChange}
+          user={user}
         />
         <div className="view-container animate-fade-in">
           {children}

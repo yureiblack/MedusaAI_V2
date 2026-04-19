@@ -1,7 +1,7 @@
 import React from 'react';
 import WelcomeCard from '../components/WelcomeCard';
 
-const Dashboard = ({ sessions = [], onSwitchSession, onDeleteSession, searchQuery = '' }) => {
+const Dashboard = ({ sessions = [], onSwitchSession, onDeleteSession, searchQuery = '', user }) => {
   const filteredSessions = sessions.filter(session => 
     session.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -10,7 +10,7 @@ const Dashboard = ({ sessions = [], onSwitchSession, onDeleteSession, searchQuer
     <div className="dashboard-view">
       <div className="dashboard-main">
         <h2 className="section-title">Dashboard</h2>
-        <WelcomeCard />
+        <WelcomeCard userName={user?.name} />
         
         <div className="dashboard-history">
           <h3 className="history-section-title">Recent Research</h3>

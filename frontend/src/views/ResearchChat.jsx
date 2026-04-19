@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
-const Message = ({ chat }) => {
+const Message = ({ chat, user }) => {
   const isBot = chat.role === 'bot';
+  const userName = user?.name || "User";
+  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=aa3bff&color=fff`;
 
   return (
     <div className={`message-wrapper ${isBot ? 'bot' : 'user'}`}>
@@ -12,11 +15,17 @@ const Message = ({ chat }) => {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path></svg>
           </div>
         ) : (
-          <img src="https://ui-avatars.com/api/?name=Sophia+A&background=aa3bff&color=fff" alt="User" />
+          <img src={avatarUrl} alt="User" />
         )}
       </div>
       <div className="message-content glass">
-        <div className="message-text">{chat.text}</div>
+        <div className="message-text">
+          {isBot ? (
+            <ReactMarkdown>{chat.text}</ReactMarkdown>
+          ) : (
+            chat.text
+          )}
+        </div>
         {chat.sources && chat.sources.length > 0 && (
           <div className="message-sources">
             <p className="sources-title">Sources Found:</p>
@@ -35,9 +44,10 @@ const Message = ({ chat }) => {
 };
 
 // token is the only new prop added
-const ResearchChat = ({ session, token, onUpdateMessages }) => {
+const ResearchChat = ({ session, token, user, onUpdateMessages }) => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showExportOptions, setShowExportOptions] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -48,6 +58,10 @@ const ResearchChat = ({ session, token, onUpdateMessages }) => {
 
   const handleSend = async () => {
     if (!query.trim()) return;
+    if (!token) {
+      alert("You must be logged in to performing research.");
+      return;
+    }
 
     const userMsg = { role: 'user', text: query };
     const newMessages = [...session.messages, userMsg];
@@ -79,6 +93,35 @@ const ResearchChat = ({ session, token, onUpdateMessages }) => {
     }
   };
 
+  const handleExport = async (format) => {
+    const lastBotMessage = [...session.messages].reverse().find(m => m.role === 'bot');
+    if (!lastBotMessage) return;
+
+    try {
+      const endpoint = format === 'pdf' ? '/export/pdf' : '/export/md';
+      const response = await axios.post(
+        `http://127.0.0.1:8000${endpoint}`,
+        { text: lastBotMessage.text },
+        { 
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: 'blob' 
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `research_report.${format}`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setShowExportOptions(false);
+    } catch (err) {
+      console.error("Export failed:", err);
+      alert("Failed to export report. Please try again.");
+    }
+  };
+
   return (
     <div className="research-view">
       <div className="chat-container glass">
@@ -88,16 +131,28 @@ const ResearchChat = ({ session, token, onUpdateMessages }) => {
             <span>Agent Medusa Core</span>
           </div>
           <div className="chat-actions">
-            <button className="chat-action-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Export
-            </button>
+            <div className="export-container">
+              <button 
+                className="chat-action-btn"
+                onClick={() => setShowExportOptions(!showExportOptions)}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export
+              </button>
+              
+              {showExportOptions && (
+                <div className="export-dropdown glass">
+                  <button onClick={() => handleExport('pdf')}>PDF Document</button>
+                  <button onClick={() => handleExport('md')}>Markdown File</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="chat-messages">
           {session.messages.map((m, i) => (
-            <Message key={i} chat={m} />
+            <Message key={i} chat={m} user={user} />
           ))}
           {loading && (
             <div className="message-wrapper bot">
@@ -146,6 +201,21 @@ const ResearchChat = ({ session, token, onUpdateMessages }) => {
         .agent-status { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; }
         .status-dot { width: 10px; height: 10px; background: #10B981; border-radius: 50%; box-shadow: 0 0 8px #10b98188; }
         .chat-action-btn { background: var(--white); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+        .chat-action-btn:hover { background: var(--bg); }
+        .export-container { position: relative; }
+        .export-dropdown { position: absolute; top: 100%; right: 0; margin-top: 8px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 4px; min-width: 150px; z-index: 100; box-shadow: var(--shadow-md); }
+        .export-dropdown button { background: none; border: none; padding: 10px 16px; border-radius: 8px; font-size: 13px; text-align: left; cursor: pointer; transition: all 0.2s; }
+        .export-dropdown button:hover { background: var(--bg); color: var(--primary); }
+        
+        /* Markdown Styling */
+        .message-text h1, .message-text h2, .message-text h3 { margin-top: 16px; margin-bottom: 8px; color: var(--text-dark); }
+        .message-text h1 { font-size: 1.4rem; }
+        .message-text h2 { font-size: 1.2rem; }
+        .message-text p { margin-bottom: 12px; }
+        .message-text ul, .message-text ol { margin-left: 20px; margin-bottom: 12px; }
+        .message-text li { margin-bottom: 4px; }
+        .message-text strong { color: var(--primary); }
+
         .chat-messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 24px; }
         .message-wrapper { display: flex; gap: 16px; max-width: 85%; }
         .message-wrapper.user { flex-direction: row-reverse; align-self: flex-end; }

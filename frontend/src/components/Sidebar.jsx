@@ -1,16 +1,20 @@
 import React from 'react';
 
-const Sidebar = ({ 
+const Sidebar = ({
   isExpanded,
   onToggle,
-  activeTab, 
-  onTabChange, 
-  sessions = [], 
-  activeSessionId, 
-  onNewSession, 
+  activeTab,
+  onTabChange,
+  sessions = [],
+  activeSessionId,
+  onNewSession,
   onSwitchSession,
-  onLogout 
+  onLogout,
+  user
 }) => {
+  const userName = user?.name || "User";
+  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=aa3bff&color=fff`;
+
   return (
     <aside className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
       <div className="sidebar-header">
@@ -25,13 +29,13 @@ const Sidebar = ({
         )}
         {!isExpanded && (
           <button className="new-chat-btn-mini" onClick={onNewSession} title="New Research">
-             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
         )}
       </div>
-      
+
       <div className="sidebar-nav">
-        <button 
+        <button
           className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}
           onClick={() => onTabChange('dashboard')}
           title={!isExpanded ? "Dashboard" : ""}
@@ -39,7 +43,7 @@ const Sidebar = ({
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
           {isExpanded && <span>Dashboard</span>}
         </button>
-        <button 
+        <button
           className={`nav-item ${activeTab === 'research' ? 'active' : ''}`}
           onClick={() => onTabChange('research')}
           title={!isExpanded ? "Research" : ""}
@@ -51,10 +55,10 @@ const Sidebar = ({
 
       <div className="sidebar-footer">
         <div className="user-profile-card" onClick={onLogout}>
-          <img src="https://ui-avatars.com/api/?name=Sophia+A&background=aa3bff&color=fff" alt="User" className="avatar" />
+          <img src={avatarUrl} alt="User" className="avatar" />
           {isExpanded && (
             <div className="user-info">
-              <span className="user-name">Sophia</span>
+              <span className="user-name">{userName}</span>
               <span className="user-role">Researcher</span>
             </div>
           )}
