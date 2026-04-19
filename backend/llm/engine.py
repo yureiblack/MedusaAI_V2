@@ -1,10 +1,21 @@
-from transformers import pipeline
+import os
+from groq import Groq
+from dotenv import load_dotenv
 
-generator = pipeline(
-    "text-generation",
-    model="google/flan-t5-small",
-    max_length=256
+load_dotenv()
+
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY"),
 )
 
 def generate(prompt):
-    return generator(prompt, do_sample=False)[0]["generated_text"]
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="llama-3.3-70b-versatile",
+    )
+    return chat_completion.choices[0].message.content
