@@ -251,6 +251,17 @@ const ResearchChat = ({ session, token, user, onUpdateMessages }) => {
         .send-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; }
         .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .input-hint { font-size: 11px; color: var(--text-muted); margin-top: 8px; text-align: center; }
+
+        @media (max-width: 768px) {
+          .chat-header { padding: 12px 16px; }
+          .agent-status span { display: none; }
+          .message-wrapper { max-width: 92%; gap: 12px; }
+          .message-content { padding: 12px 16px; font-size: 14px; }
+          .chat-input-area { padding: 16px; }
+          .input-wrapper { padding: 10px 12px; }
+          textarea { font-size: 14px; }
+          .message-avatar img, .bot-avatar { width: 32px; height: 32px; }
+        }
       `}</style>
     </div>
   );

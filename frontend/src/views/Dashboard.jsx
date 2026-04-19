@@ -190,6 +190,14 @@ const Dashboard = ({ sessions = [], onSwitchSession, onDeleteSession, searchQuer
           align-items: center;
           gap: 4px;
         }
+
+        @media (max-width: 768px) {
+          .dashboard-view { padding-bottom: 20px; }
+          .section-title { font-size: 20px; margin-bottom: 16px; }
+          .history-grid { grid-template-columns: 1fr; gap: 16px; }
+          .history-card { padding: 16px; }
+          .card-session-title { font-size: 15px; height: auto; -webkit-line-clamp: 3; }
+        }
       `}</style>
     </div>
   );
