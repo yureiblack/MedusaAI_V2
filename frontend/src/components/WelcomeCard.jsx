@@ -115,6 +115,23 @@ const WelcomeCard = ({ userName = "Sophia" }) => {
           .welcome-title { font-size: 36px; }
           .welcome-image { height: 180px; width: 180px; }
         }
+
+        @media (max-width: 768px) {
+          .welcome-card {
+            flex-direction: column-reverse;
+            padding: 20px;
+            text-align: center;
+            align-items: center;
+          }
+          .welcome-title { font-size: 28px; }
+          .welcome-subtitle { font-size: 16px; margin-bottom: 24px; }
+          .welcome-image { height: 140px; width: 140px; margin-bottom: 20px; }
+          .quick-actions { 
+            grid-template-columns: 1fr; 
+            width: 100%;
+          }
+          .action-link { justify-content: center; }
+        }
       `}</style>
     </div>
   );

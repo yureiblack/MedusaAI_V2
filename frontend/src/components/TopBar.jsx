@@ -13,7 +13,7 @@ const TopBar = ({ onLogout, activeTab, searchQuery, onSearchChange, onToggleSide
     <header className={`topbar ${isDashboard ? 'scrollable' : 'sticky'}`}>
       <div className="topbar-left">
         <button className="mobile-menu-btn" onClick={onToggleSidebar}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <svg width="24" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
         {isDashboard && (
           <div className="search-container">
@@ -139,7 +139,7 @@ const TopBar = ({ onLogout, activeTab, searchQuery, onSearchChange, onToggleSide
             padding: 8px;
           }
           .search-container {
-            max-width: 200px;
+            max-width: 280px;
           }
         }
       `}</style>
