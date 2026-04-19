@@ -70,10 +70,11 @@ const ResearchChat = ({ session, token, user, onUpdateMessages }) => {
     setLoading(true);
 
     try {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
       const res = await axios.post(
-        "http://127.0.0.1:8000/research",
+        `${apiBase}/research`,
         { query },
-        { headers: { Authorization: `Bearer ${token}` } }  // only change
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const botMsg = {
@@ -98,9 +99,10 @@ const ResearchChat = ({ session, token, user, onUpdateMessages }) => {
     if (!lastBotMessage) return;
 
     try {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
       const endpoint = format === 'pdf' ? '/export/pdf' : '/export/md';
       const response = await axios.post(
-        `http://127.0.0.1:8000${endpoint}`,
+        `${apiBase}${endpoint}`,
         { text: lastBotMessage.text },
         { 
           headers: { Authorization: `Bearer ${token}` },

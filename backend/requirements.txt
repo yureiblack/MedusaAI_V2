@@ -7,3 +7,6 @@ torch>=2.6.0
 fpdf==1.7.2
 tavily-python==0.3.3
 python-dotenv==1.0.1
+groq==0.4.2
+supabase==2.3.7
+python-jose[cryptography]==3.3.0
