@@ -126,20 +126,36 @@ const TopBar = ({ onLogout, activeTab, searchQuery, onSearchChange, onToggleSide
 
         @media (max-width: 768px) {
           .topbar {
-            padding: 0 16px;
-            height: 64px;
+            padding: 0 8px;
+            height: 60px;
+            gap: 4px;
           }
           .mobile-menu-btn {
             display: flex;
+            margin-right: 0;
+            padding: 4px;
           }
           .date-text {
-            display: none;
+            display: inline;
+            font-size: 11px;
           }
           .date-display {
-            padding: 8px;
+            padding: 4px 8px;
+            gap: 4px;
           }
           .search-container {
-            max-width: 280px;
+            max-width: 220px;
+            flex: 1;
+          }
+          .search-icon {
+            width: 14px;
+            height: 14px;
+            left: 8px;
+          }
+          .search-input {
+            padding: 6px 8px 6px 28px;
+            font-size: 12px;
+            height: 32px;
           }
         }
       `}</style>
