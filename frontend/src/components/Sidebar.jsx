@@ -77,8 +77,8 @@ const Sidebar = ({
           position: fixed;
           left: 0;
           top: 0;
-          z-index: 100;
-          transition: width 0.3s ease;
+          z-index: 1000;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
         }
 
@@ -89,6 +89,22 @@ const Sidebar = ({
         .sidebar.collapsed {
           width: 80px;
           align-items: center;
+        }
+
+        @media (max-width: 768px) {
+          .sidebar {
+            width: 280px !important;
+            transform: translateX(-100%);
+            box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+          }
+          
+          .sidebar.expanded {
+            transform: translateX(0);
+          }
+
+          .sidebar.collapsed {
+            transform: translateX(-100%);
+          }
         }
 
         .sidebar-header {
