@@ -1,8 +1,8 @@
 import os
 from fpdf import FPDF
 
-# Ensure exports directory exists
-EXPORTS_DIR = os.path.join(os.getcwd(), "exports")
+# Ensure exports directory exists (use /tmp for serverless compatibility)
+EXPORTS_DIR = "/tmp/exports"
 if not os.path.exists(EXPORTS_DIR):
     os.makedirs(EXPORTS_DIR)
 
