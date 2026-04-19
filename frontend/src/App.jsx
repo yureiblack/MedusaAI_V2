@@ -176,6 +176,7 @@ function App() {
             onSwitchSession={handleSwitchSession}
             onDeleteSession={handleDeleteSession}
             searchQuery={searchQuery}
+            user={user}
           />
         );
       case "research":
@@ -183,6 +184,7 @@ function App() {
           <ResearchChat
             session={activeSession}
             token={token}
+            user={user}
             onUpdateMessages={(msgs) => handleUpdateSession(activeSession.id, msgs)}
           />
         );
@@ -193,6 +195,7 @@ function App() {
             onSwitchSession={handleSwitchSession}
             onDeleteSession={handleDeleteSession}
             searchQuery={searchQuery}
+            user={user}
           />
         );
     }
@@ -209,6 +212,7 @@ function App() {
       onSwitchSession={handleSwitchSession}
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
+      user={user}
     >
       {renderView()}
     </Layout>
