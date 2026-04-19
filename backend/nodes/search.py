@@ -43,28 +43,20 @@ def search_node(state):
         for q in state.get("search_queries", []):
             response = client.search(
                 query=q,
-                search_depth="basic",
-                max_results=3
+                search_depth="advanced", 
+                max_results=5
             )
 
             for r in response.get("results", []):
-                url = r.get("url")
-
-                # Fetch real content
-                full_content = fetch_full_content(url)
-
                 results.append({
-                    "url": url,
-                    "content": full_content if full_content else r.get("content", "")
+                    "url": r.get("url"),
+                    "content": r.get("content", "")
                 })
 
     except Exception as e:
         errors.append(f"Tavily failed: {str(e)}")
 
-    # limit results
-    results = results[:5]
-
-    state["documents"] = results
+    # Ensure we have at least some documents
+    state["documents"] = results[:8]
     state["errors"] = errors
-
     return state

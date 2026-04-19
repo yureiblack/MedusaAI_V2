@@ -9,7 +9,12 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,7 +34,7 @@ async def research(data: dict, user_id: str = Depends(get_current_user)):
         "errors": []
     }
 
-    result = graph.invoke(state)
+    result = await graph.ainvoke(state)
 
     # Save to Supabase
     supabase.table("conversations").insert({
@@ -50,10 +55,14 @@ async def get_history(user_id: str = Depends(get_current_user)):
 
     return rows.data
 
+from fastapi.responses import FileResponse
+
 @app.post("/export/pdf")
 async def pdf(data: dict, user_id: str = Depends(get_current_user)):
-    return {"file": export_pdf(data["text"])}
+    path = export_pdf(data["text"])
+    return FileResponse(path, filename="research_report.pdf", media_type="application/pdf")
 
 @app.post("/export/md")
 async def md(data: dict, user_id: str = Depends(get_current_user)):
-    return {"file": export_markdown(data["text"])}
+    path = export_markdown(data["text"])
+    return FileResponse(path, filename="research_report.md", media_type="text/markdown")

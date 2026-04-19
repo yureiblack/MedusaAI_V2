@@ -138,7 +138,7 @@ async def call_llm(prompt: str, retries: int = 2) -> str:
         try:
             response = await asyncio.to_thread(
                 client.chat.completions.create,
-                model="llama3-8b-8192",
+                model="llama-3.1-8b-instant",
                 messages=[
                     {"role": "system", "content": "Return ONLY valid JSON."},
                     {"role": "user", "content": prompt}

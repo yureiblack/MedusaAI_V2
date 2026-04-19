@@ -1,6 +1,13 @@
+import os
 from fpdf import FPDF
 
+# Ensure exports directory exists
+EXPORTS_DIR = os.path.join(os.getcwd(), "exports")
+if not os.path.exists(EXPORTS_DIR):
+    os.makedirs(EXPORTS_DIR)
+
 def export_pdf(text, filename="report.pdf"):
+    filepath = os.path.join(EXPORTS_DIR, filename)
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
@@ -8,12 +15,13 @@ def export_pdf(text, filename="report.pdf"):
     for line in text.split("\n"):
         pdf.multi_cell(0, 8, line)
 
-    pdf.output(filename)
-    return filename
+    pdf.output(filepath)
+    return filepath
 
 
 def export_markdown(text, filename="report.md"):
-    with open(filename, "w") as f:
+    filepath = os.path.join(EXPORTS_DIR, filename)
+    with open(filepath, "w") as f:
         f.write(text)
 
-    return filename
+    return filepath
