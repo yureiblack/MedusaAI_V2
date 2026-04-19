@@ -1,5 +1,6 @@
 import os
 from fpdf import FPDF
+import markdown
 
 # Ensure exports directory exists (use /tmp for serverless compatibility)
 EXPORTS_DIR = "/tmp/exports"
@@ -8,12 +9,17 @@ if not os.path.exists(EXPORTS_DIR):
 
 def export_pdf(text, filename="report.pdf"):
     filepath = os.path.join(EXPORTS_DIR, filename)
+    # fpdf2 supports HTML rendering which is perfect for Markdown conversion
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("helvetica", size=12)
 
-    for line in text.split("\n"):
-        pdf.multi_cell(0, 8, line)
+    # Convert Markdown to HTML
+    html_content = markdown.markdown(text)
+    
+    # Render HTML to PDF
+    # fpdf2's write_html handles basic tags like <h1>, <p>, <b>, <ul>, etc.
+    pdf.write_html(html_content)
 
     pdf.output(filepath)
     return filepath

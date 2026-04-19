@@ -110,12 +110,19 @@ const ResearchChat = ({ session, token, user, onUpdateMessages }) => {
         }
       );
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Specify correct MIME type e.g. application/pdf or text/markdown
+      const mimeType = format === 'pdf' ? 'application/pdf' : 'text/markdown';
+      const blob = new Blob([response.data], { type: mimeType });
+      
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `research_report.${format}`);
       document.body.appendChild(link);
       link.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
       link.remove();
       setShowExportOptions(false);
     } catch (err) {
